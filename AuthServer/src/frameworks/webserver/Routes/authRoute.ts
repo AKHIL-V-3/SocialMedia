@@ -11,7 +11,7 @@ const router =  express.Router()
 // const controller = new userController(interactor)
 
 
-// router.post("/signin",controller.createUser.bind(controller))
+// router.post("/signup",controller.createUser.bind(controller))
 router.get("/",(req:Request,res:Response)=>{
 
         res.send("This is auth router")
