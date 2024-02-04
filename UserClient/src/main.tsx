@@ -18,6 +18,7 @@ const Main = () => {
   const toggleColorScheme = (value?: ColorScheme) => setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
   const dark = colorScheme === "dark"
+  const light = colorScheme === "light"
 
   return (
 
@@ -30,8 +31,14 @@ const Main = () => {
           colors: {
             // override dark colors to change them for all components
             dark: ["#C1C2C5", "#A6A7AB", "#909296", "#5C5F66", "#373A40", "#2C2E33", "#25262B", "#101113", "#1A1B1E", "#141517"],
-          }
+          },
+
+        
+
         }}
+
+
+
         withGlobalStyles
         withNormalizeCSS
       >

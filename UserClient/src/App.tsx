@@ -6,6 +6,7 @@ import SignUpPage from "./pages/Auth/SignUp/index"
 import { MantineProvider } from "@mantine/core";
 import SignUpPage2 from "./pages/Auth/SignUp2";
 import SignUpPage3 from "./pages/Auth/Signup3";
+import SignInPage from "./pages/Auth/SignIn";
 
 // import './App.css'
 
@@ -30,10 +31,14 @@ const router = createBrowserRouter([
       {
         path: "signup/step3",
         element: <SignUpPage3 />
-      }
-
+      },
 
     ]
+  },
+
+  {
+    path: "/auth/signin",
+    element: <SignInPage />
   }
 ])
 

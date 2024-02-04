@@ -1,29 +1,16 @@
-import { Box, Avatar, Divider, Container, Title, TextInput, Button, Image, Text, Stepper } from "@mantine/core"
-import { IconLock } from "@tabler/icons-react"
+import { Box, Divider, Button, Container, Text, TextInput, Title, Avatar, PasswordInput } from "@mantine/core"
 import AuthenticationButton from "../../../Components/AuthenticationButtons"
+import { IconLock } from "@tabler/icons-react"
 import GoogleIcon from "../../../assets/google-logo.png"
 import facebookIcon from "../../../assets/facebook-logo0.png"
-import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
-
-function SignUpPage() {
+import { Link } from "react-router-dom"
 
 
-
-    const navigate = useNavigate()
-
-    const [active, setActive] = useState(0);
-
-    const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
-
-    const handleNext = () => {
-        navigate('/auth/signup/step2');
-        nextStep
-    }
+const SignInPage = () => {
 
     return (
-        <>
 
+        <>
             <Container>
 
                 <Box
@@ -56,14 +43,6 @@ function SignUpPage() {
                                 width: "100%"
                             }}
                         >
-                            <Box sx={{ width: "100%" }} pb={20}>
-                                <Stepper active={active} onStepClick={setActive}>
-                                    <Stepper.Step />
-                                    <Stepper.Step />
-                                    <Stepper.Step />
-                                </Stepper>
-                            </Box>
-
                             <Avatar sx={{ m: 1, bgcolor: "grey.3" }} radius={"xl"} color="indigo" variant="outline">
                                 <IconLock />
                             </Avatar>
@@ -76,32 +55,10 @@ function SignUpPage() {
                                     flexDirection: "column",
                                     gap: "12px"
                                 }}
+                                mt={13}
+                                mb={30}
                             >
-                                <Box
-                                    sx={{ marginTop: "8px" }}
-                                >
-                                    <Text sx={{ fontSize: "16px", fontWeight: "bold", marginBottom: "3px" }}>Email Address</Text>
-                                    <TextInput
-                                        sx={{ input: { padding: "20px" } }}
-                                        size="lg"
-                                        placeholder="name@domain.com"
-                                    />
-                                </Box>
-                                <Button
-                                    sx={{
-                                        height: "45px",
-                                        borderRadius: "24px"
-                                    }}
-                                    fullWidth variant="filled"
-                                    onClick={() => handleNext()}
-                                >Next
-                                </Button>
-                                <Divider
-                                    my="lg"
-                                    label="or"
-                                    labelPosition="center"
-                                    opacity={0.60}
-                                />
+
                                 <AuthenticationButton content="Signup with Google" image={GoogleIcon} />
                                 <AuthenticationButton content="Signup with facebook" image={facebookIcon} />
 
@@ -113,16 +70,61 @@ function SignUpPage() {
                                     opacity={0.60}
                                 />
 
-                                <div style={{ display: "flex", justifyContent: "center", width: "100%" }}><Text>Already have an account?      <Link to="/auth/signin" >Log in here</Link></Text></div>
+
+                                <Box
+                                    sx={{ marginTop: "8px" }}
+                                >
+                                    <Text sx={{ fontSize: "16px", fontWeight: "bold", marginBottom: "3px" }}>Email Address</Text>
+                                    <TextInput
+
+                                        style={{ outline: "none", border: "none", boxShadow: "none" }}
+                                        sx={{ input: { padding: "20px" }, }}
+                                        size="lg"
+                                        placeholder="name@domain.com"
+
+                                    />
+                                </Box>
+                                <Box
+                                    sx={{ marginTop: "8px" }}
+                                >
+                                    <Text sx={{ fontSize: "16px", fontWeight: "bold", marginBottom: "3px" }}>Password</Text>
+                                    <PasswordInput
+                                        sx={{ input: { padding: "20px" } }}
+                                        size="lg"
+                                        placeholder="***********"
+                                    />
+
+                                </Box>
+                                <Button
+                                    mt={20}
+                                    sx={{
+                                        height: "45px",
+                                        borderRadius: "24px"
+                                    }}
+                                    fullWidth variant="filled"
+                                >SignIn
+                                </Button>
+
+                                <div style={{ display: "flex", justifyContent: "center", width: "100%" }}><Text><a href="">Forgot Your Password</a></Text></div>
+
+                                <Divider
+                                    size="xs"
+                                    labelPosition="center"
+                                    mt={20}
+                                    mb={10}
+                                    opacity={0.60}
+                                />
+
+                                <div style={{ display: "flex", justifyContent: "center", width: "100%" }}><Text>Don't have an account?            <Link to="/auth/signup" >Signup for Crepuscle</Link></Text></div>
+
 
                             </Box>
                         </Box>
                     </Box>
                 </Box>
             </Container>
-
         </>
     )
 }
 
-export default SignUpPage
+export default SignInPage
