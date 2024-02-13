@@ -2,6 +2,9 @@ import { Avatar, Box, Button, Container, Divider, PasswordInput, Stepper, Text, 
 import { IconArrowLeft } from "@tabler/icons-react"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../../lib/redux/hooks";
+import useAuthHook from "../../../hooks/useAuth";
+
 
 
 
@@ -12,18 +15,30 @@ const SignUpPage2 = () => {
 
     const [active, setActive] = useState(1);
 
+
+
     const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
     const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
-
-    const handleNext = () => {
-        navigate('/auth/signup/step3');
-        nextStep
-    }
-
-
     const handleprev = () => {
         navigate('/auth/signup');
         prevStep
+    }
+
+    const {signupWithEmail} = useAuthHook()
+
+
+    const [password, setPassword] = useState('')
+    const [confirmpassword, setConfirmpassword] = useState('')
+
+    const email = useAppSelector((state) => state.userSlice.email)
+
+    const handleSubmit = async() => {
+
+       const response = await signupWithEmail(email,password,confirmpassword)
+       console.log(response);
+       navigate("/auth/signup/step3")
+       nextStep()
+
     }
 
 
@@ -100,6 +115,7 @@ const SignUpPage2 = () => {
                                     <PasswordInput
                                         sx={{ input: { padding: "20px" } }}
                                         size="lg"
+                                        onChange={(e) => setPassword(e.target.value)}
                                     />
 
                                 </Box>
@@ -108,6 +124,7 @@ const SignUpPage2 = () => {
                                     <PasswordInput
                                         sx={{ input: { padding: "20px" } }}
                                         size="lg"
+                                        onChange={(e) => setConfirmpassword(e.target.value)}
                                     />
 
                                 </Box>
@@ -120,7 +137,7 @@ const SignUpPage2 = () => {
                                         borderRadius: "24px"
                                     }}
                                     fullWidth variant="filled"
-                                    onClick={() => handleNext()}
+                                    onClick={() => handleSubmit()}
                                 >Next
                                 </Button>
 

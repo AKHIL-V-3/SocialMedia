@@ -3,7 +3,7 @@ import { ActionIcon, ColorScheme, ColorSchemeProvider, MantineProvider, } from "
 import App from "./App";
 import { SunIcon, MoonIcon } from "@radix-ui/react-icons"
 import { useLocalStorage } from '@mantine/hooks';
-import store from "./lib/redux/hooks";
+import store from "./lib/redux/hooks/store";
 import { Provider } from "react-redux";
 
 

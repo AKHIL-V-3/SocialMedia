@@ -5,20 +5,27 @@ import GoogleIcon from "../../../assets/google-logo.png"
 import facebookIcon from "../../../assets/facebook-logo0.png"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { userActions } from "../../../lib/redux/Slice/UserSlice"
+
+
+
 
 function SignUpPage() {
 
 
 
     const navigate = useNavigate()
-
     const [active, setActive] = useState(0);
-
     const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
+    const [email, setEmail] = useState("")
 
-    const handleNext = () => {
-        navigate('/auth/signup/step2');
-        nextStep
+    const dispatch = useDispatch()
+
+    const handleGetEmail = ()=>{
+          dispatch(userActions.addEmail(email))   
+          navigate("/auth/signup/step2")  
+          nextStep 
     }
 
     return (
@@ -85,6 +92,7 @@ function SignUpPage() {
                                         sx={{ input: { padding: "20px" } }}
                                         size="lg"
                                         placeholder="name@domain.com"
+                                        onChange={(e)=>setEmail(e.target.value)}
                                     />
                                 </Box>
                                 <Button
@@ -93,7 +101,7 @@ function SignUpPage() {
                                         borderRadius: "24px"
                                     }}
                                     fullWidth variant="filled"
-                                    onClick={() => handleNext()}
+                                    onClick={() => handleGetEmail()}
                                 >Next
                                 </Button>
                                 <Divider

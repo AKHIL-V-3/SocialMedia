@@ -1,17 +1,58 @@
-// import { Request, Response } from "express";
+
+import { Request,Response,NextFunction } from "express";
+import { userInteractorInterface } from "../applications/interface/userInteractorInterface";
+import { main } from "../frameworks/Mail";
 
 
+export class userController {
 
-// export class userController {
+
+    private interactor:userInteractorInterface
+
+    constructor(interactor:userInteractorInterface){
+
+           this.interactor = interactor
+    }
 
 
-//     //    async createUser(req:Request,res:Response){
+    async createUser(req: Request, res: Response,next:NextFunction) {
 
-//     //          try{
+        try {
 
-//     //          }catch(err){
+            const userData = {
+                  uid:req.body.uid,
+                  token:req.body.token
+            }
 
-                 
-//     //          }
-//     //    }
-// }
+            const data = await this.interactor.createUser(userData)
+
+           const getotp = await main({uid:req.body.uid,email:req.body.email})
+
+           const otpData = {
+                  uid:req.body.uid,
+                  otp:getotp
+           }
+            const sendOtp = await this.interactor.createOtp(otpData) 
+
+            console.log(sendOtp);
+            
+            
+            res.status(200).json(data)
+
+        } catch (error) {
+
+            next(error)
+        }
+    }
+
+
+    async sendMail(req:Request,res:Response,next:NextFunction){
+
+          try{
+
+
+          }catch(err){
+             next(err)
+          }
+    }
+}

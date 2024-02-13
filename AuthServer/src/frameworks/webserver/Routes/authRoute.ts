@@ -1,21 +1,18 @@
 import express, { Request, Response } from 'express'
-// import { userController } from '../../../Adaptor/userController'
-// import { userRepository } from '../../../Applications/repository/userRepository'
-// import { userInteractor } from '../../../Applications/interactor/userInteractor'
+import { userController } from '../../../adaptors/userController'
+import { userRepository } from '../../../applications/repository/userRepository'
+import { userInteractor } from '../../../applications/interactor/userInteractor'
 
 
 const router =  express.Router()
 
-// const repository = new userRepository()
-// const interactor = new userInteractor(repository)
-// const controller = new userController(interactor)
+const repository = new userRepository()
+const interactor = new userInteractor(repository)
+const controller = new userController(interactor)
+
+router.post("/signup",controller.createUser.bind(controller))
 
 
-// router.post("/signup",controller.createUser.bind(controller))
-router.get("/",(req:Request,res:Response)=>{
-
-        res.send("This is auth router")
-})
 
 
 

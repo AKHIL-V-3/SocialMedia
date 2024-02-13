@@ -12,10 +12,8 @@ const SignInPage = () => {
 
         <>
             <Container>
-
                 <Box
                     sx={{
-
                         width: "100%",
                         height: "100%",
                         display: "flex",
@@ -24,8 +22,6 @@ const SignInPage = () => {
                         // background: "#000",
                     }}
                 >
-
-
                     <Box
                         sx={{
                             width: "40%",
@@ -116,8 +112,6 @@ const SignInPage = () => {
                                 />
 
                                 <div style={{ display: "flex", justifyContent: "center", width: "100%" }}><Text>Don't have an account?            <Link to="/auth/signup" >Signup for Crepuscle</Link></Text></div>
-
-
                             </Box>
                         </Box>
                     </Box>
