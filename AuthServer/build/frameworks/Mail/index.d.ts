@@ -1,1 +1,1 @@
-export declare const main: (user: object) => Promise<void>;
+export declare const main: (user: any) => Promise<string>;

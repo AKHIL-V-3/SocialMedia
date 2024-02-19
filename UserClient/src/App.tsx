@@ -7,10 +7,16 @@ import { MantineProvider } from "@mantine/core";
 import SignUpPage2 from "./pages/Auth/SignUp2";
 import SignUpPage3 from "./pages/Auth/Signup3";
 import SignInPage from "./pages/Auth/SignIn";
+import HomePage from "./pages/Home";
 
 // import './App.css'
 
 const router = createBrowserRouter([
+
+  {
+    path: "/",
+    element: <HomePage />
+  },
 
   {
     path: "/auth/",
@@ -39,7 +45,8 @@ const router = createBrowserRouter([
   {
     path: "/auth/signin",
     element: <SignInPage />
-  }
+  },
+
 ])
 
 function App() {

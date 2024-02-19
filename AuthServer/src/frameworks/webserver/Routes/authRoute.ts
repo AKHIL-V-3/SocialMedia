@@ -11,6 +11,7 @@ const interactor = new userInteractor(repository)
 const controller = new userController(interactor)
 
 router.post("/signup",controller.createUser.bind(controller))
+router.post("/verifyOtp",controller.verifyOtp.bind(controller))
 
 
 

@@ -2,8 +2,10 @@ import { Avatar, Box, Button, Container, Divider, PasswordInput, Stepper, Text, 
 import { IconArrowLeft } from "@tabler/icons-react"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../../lib/redux/hooks";
+import { useAppSelector,useAppDispatch } from "../../../lib/redux/hooks";
+import { userActions } from "../../../lib/redux/Slice/UserSlice";
 import useAuthHook from "../../../hooks/useAuth";
+
 
 
 
@@ -14,7 +16,7 @@ const SignUpPage2 = () => {
     const navigate = useNavigate()
 
     const [active, setActive] = useState(1);
-
+    const dispatch = useAppDispatch()
 
 
     const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
@@ -23,24 +25,21 @@ const SignUpPage2 = () => {
         navigate('/auth/signup');
         prevStep
     }
-
-    const {signupWithEmail} = useAuthHook()
-
-
+    const {signupWithEmail } = useAuthHook()
     const [password, setPassword] = useState('')
     const [confirmpassword, setConfirmpassword] = useState('')
-
     const email = useAppSelector((state) => state.userSlice.email)
-
     const handleSubmit = async() => {
-
        const response = await signupWithEmail(email,password,confirmpassword)
-       console.log(response);
+       const user = {
+             uid:response?.data?.uid,
+             token:response?.data?.token
+       }
+       dispatch(userActions.addUser(user))
        navigate("/auth/signup/step3")
        nextStep()
 
     }
-
 
     return (
 

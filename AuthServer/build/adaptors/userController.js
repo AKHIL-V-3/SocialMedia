@@ -13,16 +13,24 @@ class userController {
                 token: req.body.token
             };
             const data = await this.interactor.createUser(userData);
-            const sendMail = await (0, Mail_1.main)({ uid: req.body.uid, email: req.body.email });
-            console.log(sendMail);
+            const getotp = await (0, Mail_1.main)({ uid: req.body.uid, email: req.body.email });
+            const otpData = {
+                uid: req.body.uid,
+                otp: getotp
+            };
+            const sendOtp = await this.interactor.createOtp(otpData);
+            console.log(sendOtp);
             res.status(200).json(data);
         }
         catch (error) {
             next(error);
         }
     }
-    async sendMail(req, res, next) {
+    async verifyOtp(req, res, next) {
         try {
+            const { otp } = req.body;
+            console.log(otp);
+            const otpVerified = await this.interactor.verifyOtp({ otp: parseInt(otp) });
         }
         catch (err) {
             next(err);

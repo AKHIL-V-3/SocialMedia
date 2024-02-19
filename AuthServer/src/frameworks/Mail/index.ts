@@ -3,8 +3,7 @@ import nodeMailer from 'nodemailer'
 
 
 export const main = async (user:any)=>{
-
-
+ 
     const otp = generateOtp()
   
     let transporter = nodeMailer.createTransport({
@@ -20,7 +19,7 @@ export const main = async (user:any)=>{
 
     const mailOptions = {
 
-          from: "social099media@gmail.com",
+          from: "akhilv018@gmail.com",
           to: user.email,
           subject: "sending email using node js",
           text: `YOUR OTP IS ${otp}`,
@@ -28,23 +27,13 @@ export const main = async (user:any)=>{
     }
 
     transporter.sendMail(mailOptions,(err:any,info:any)=>{
-       
-         if(err){
-
-             console.log(err);
-             
-         }else{
-
-              console.log('email send : ' + info.response);
-              
-         }
-          
+         if(err) console.log(err);
+        else console.log('email send : ' + info.response);  
     })
 
     return otp
 
 }
-
 
 const generateOtp = ()=>{
       return `${Math.floor(1000 + Math.random() * 9000)}`

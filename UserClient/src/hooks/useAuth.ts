@@ -5,8 +5,6 @@ import authApi from "../lib/api/authApi";
 
 
 const api = authApi()
-
-
 const useAuthHook = () => {
 
 
@@ -28,17 +26,27 @@ const useAuthHook = () => {
                   email:user.user.email
              }
               
-            const   response = api.signUp(data)
-
-              
-
-              return idToken
+              const  response = await api.signUp(data)
+              return response
              
      }
 
+   const verifyOtp = async(data:any)=>{
+
+          const userOtp = {
+                 otp:data?.otp,
+                 uid:data?.uid?.uid
+          }         
+       
+
+          if(userOtp?.otp.trim().length === 0) throw "Otp is required" 
+          const verify = await api.OtpVerification(userOtp)
+   }
+
      return{
 
-          signupWithEmail
+          signupWithEmail,
+          verifyOtp
      }
 
 }

@@ -5,8 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.main = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
+// import { Otp } from '../Database/Models/userModel'
 const main = async (user) => {
-    console.log(user, '00000000000000000');
+    const otp = generateOtp();
     let transporter = nodemailer_1.default.createTransport({
         service: 'gmail',
         host: 'smtp.gmail.com',
@@ -16,19 +17,21 @@ const main = async (user) => {
         },
     });
     const mailOptions = {
-        from: "social099media@gmail.com",
-        to: user,
+        from: "akhilv018@gmail.com",
+        to: user.email,
         subject: "sending email using node js",
-        text: "this is easy",
+        text: `YOUR OTP IS ${otp}`,
     };
     transporter.sendMail(mailOptions, (err, info) => {
-        if (err) {
+        if (err)
             console.log(err);
-        }
-        else {
+        else
             console.log('email send : ' + info.response);
-        }
     });
+    return otp;
 };
 exports.main = main;
+const generateOtp = () => {
+    return `${Math.floor(1000 + Math.random() * 9000)}`;
+};
 //# sourceMappingURL=index.js.map

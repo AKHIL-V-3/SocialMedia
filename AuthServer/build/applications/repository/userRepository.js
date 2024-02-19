@@ -11,7 +11,6 @@ class userRepository {
                 token: data.token,
             });
             const response = await newUser.save();
-            console.log(response, 'jjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
             return response;
         }
         catch (err) {

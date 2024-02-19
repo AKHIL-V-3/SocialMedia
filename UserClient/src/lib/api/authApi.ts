@@ -1,23 +1,40 @@
 
+import { resolvePath } from 'react-router-dom';
 import api from './axios'
 
 const authApi = ()=>{
 
     const signUp = async(user:object)=>{
-    
-          api.post('/signup',user).then((response)=>{
-                 console.log(response);
+
+         try{
+            const response = await api.post('/signup',user)
+            return response
+         }catch(err){
+             console.log(err);   
+         }    
+          
+    }
+
+    const OtpVerification  = async(Otp:object) =>{
+
+         console.log(Otp);
+         
+
+          api.post('/verifyOtp',Otp).then((response)=>{
+                console.log(response); 
+                return response 
           })
           .catch((err)=>{
-
-                console.log(err);
-                
+             console.log(err);
+             
           })
     }
 
     return {
 
-          signUp
+          signUp,
+          OtpVerification
+
     }
 }
 

@@ -2,6 +2,8 @@ import { Avatar, Box, Button, Container, Divider, Input, PasswordInput, Stepper,
 import { IconArrowLeft } from "@tabler/icons-react"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useAuthHook from "../../../hooks/useAuth";
+import { useAppSelector } from "../../../lib/redux/hooks";
 
 
 
@@ -9,14 +11,26 @@ import { useNavigate } from "react-router-dom";
 const SignUpPage3 = () => {
 
     const navigate = useNavigate()
-
+    const {verifyOtp} = useAuthHook()
     const [active, setActive] = useState(2);
+    const [otp , setOtp] = useState(2343)
+
+    const user = useAppSelector((state)=>state.userSlice.user)
+    console.log(user,'uuuuuuuuu');
+    
 
     const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
     const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
 
-    const handleSubmit = () => {
-        navigate('/');
+    const handleSubmit = async() => {
+         
+        const data = {
+              otp: otp,
+              uid: user
+        }
+          
+        const response = await verifyOtp(data)
+         navigate('/');
         nextStep
       }
 
@@ -101,6 +115,7 @@ const SignUpPage3 = () => {
                                         sx={{ input: { padding: "20px" } }}
                                         size="lg"
                                         placeholder="Otp-eg ... 34543 "
+                                        onChange={(e:any) => setOtp(e.target.value)}
                                     />
                                 </Box>
                                 <Button
@@ -109,7 +124,7 @@ const SignUpPage3 = () => {
                                         borderRadius: "12px"
                                     }}
                                     fullWidth variant="outline"
-                                    onClick={(nextStep)}
+                                    onClick={handleSubmit}
                                 >Complete Login
                                 </Button>
 

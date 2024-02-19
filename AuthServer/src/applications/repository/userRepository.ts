@@ -14,18 +14,11 @@ export class userRepository implements userRepositoryInterface {
                   uid:data.uid,
                   token:data.token,
             })
-    
            const response = await newUser.save()
-
-           console.log(response,'jjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
-           
-
            return response
 
         }catch(err){
-
-              console.log(err);
-              
+              console.log(err);   
         }          
         
     }
@@ -44,9 +37,10 @@ export class userRepository implements userRepositoryInterface {
     }
 
     async verifyOtp (data: otpEntity):Promise <any> {
+                       
           try{
              const response = await Otp.findOne({uid:data.uid})
-             if(response.otp === data.otp) return response
+             if(response.otp === data.otp) return {...response, message:"otpverification successful"}
              else return {message:"otp is not valid"}    
           }catch(err){
             console.log(err); 

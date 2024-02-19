@@ -36,7 +36,6 @@ export class userController {
 
             console.log(sendOtp);
             
-            
             res.status(200).json(data)
 
         } catch (error) {
@@ -46,11 +45,17 @@ export class userController {
     }
 
 
-    async sendMail(req:Request,res:Response,next:NextFunction){
-
+    async verifyOtp(req:Request,res:Response,next:NextFunction){
           try{
-
-
+              const {otp,uid} = req.body
+              const  otpdata = {otp:parseInt(otp),uid}
+              const otpVerified = await this.interactor.verifyOtp(otpdata)
+              if(otpVerified.message === "otpverification successful"){
+                  res.status(200).json({message:otpVerified.message})
+              }else{
+                res.status(500).json({message:otpVerified.message})
+              }
+              
           }catch(err){
              next(err)
           }

@@ -3,12 +3,15 @@ import { createSlice } from "@reduxjs/toolkit"
 interface userInterface {
     email:string,
     passwords:object,
+    user:object
 }
 
 const initialState: userInterface = {
     email: "",
-    passwords: {}
+    passwords: {},
+    user: {}
 }
+
 
 const userSlice = createSlice({
 
@@ -26,10 +29,33 @@ const userSlice = createSlice({
         },
         removePassword: (state,action)=>{
             state.passwords = {}
+        },
+        addUser: (state,action) =>{
+            state.user = action.payload
+        },
+        removeUser: (state,action) =>{
+            state.user = {}
         }
     }
 })
 
-export const userActions = userSlice.actions
+// const userDataSlice = createSlice({
 
-export default userSlice.reducer
+//     name: "userDataSlice",
+//     initialUserData,
+//     reducers: {
+//         addUser: (state, action) => {
+//             state.user = action.payload
+//         },
+//         removeUser: (state,action)=>{
+//             state.user = null
+//         },
+//     }
+      
+// })
+
+export const userActions = userSlice.actions
+// export const userDataActions = userDataSlice.actions
+
+export const  UserSliceReducer = userSlice.reducer
+// export const  UserDataSliceReducer = userDataSlice.reducer
