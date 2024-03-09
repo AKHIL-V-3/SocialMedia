@@ -6,4 +6,5 @@ export declare class userInteractor implements userInteractorInterface {
     createUser(input: any): Promise<import("../../entities/userEntity").userEntity>;
     createOtp(input: any): Promise<import("../../entities/userEntity").otpEntity>;
     verifyOtp(input: any): Promise<import("../../entities/userEntity").otpEntity>;
+    removeOtp(input: any): Promise<import("../../entities/userEntity").otpEntity>;
 }

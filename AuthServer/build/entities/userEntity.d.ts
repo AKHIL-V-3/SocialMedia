@@ -3,6 +3,6 @@ export interface userEntity {
     token: string;
 }
 export interface otpEntity {
-    uid: string;
+    email: string;
     otp: number;
 }

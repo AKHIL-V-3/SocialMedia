@@ -28,7 +28,7 @@ interface Iuser {
     token: string;
 }
 interface Iotp {
-    uid: string;
+    email: string;
     otp: number;
 }
 declare const User: mongoose.Model<Iuser, {}, {}, {}, mongoose.Document<unknown, {}, Iuser> & Iuser & {

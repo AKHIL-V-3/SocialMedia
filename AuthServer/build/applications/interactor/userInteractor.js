@@ -14,6 +14,9 @@ class userInteractor {
     async verifyOtp(input) {
         return this.repository.verifyOtp(input);
     }
+    async removeOtp(input) {
+        return this.repository.removeOtp(input);
+    }
 }
 exports.userInteractor = userInteractor;
 //# sourceMappingURL=userInteractor.js.map

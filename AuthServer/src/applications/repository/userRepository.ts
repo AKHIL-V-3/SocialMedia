@@ -1,6 +1,7 @@
 import { userEntity,otpEntity } from "../../entities/userEntity";
 import { userRepositoryInterface } from "../interface/userRepositoryInterface";
 import {User , Otp} from "../../frameworks/Database/Models/userModel";
+
 // import rabbitMqConnection from "../../Frameworks/Rabbitmq";
 
 
@@ -26,7 +27,7 @@ export class userRepository implements userRepositoryInterface {
     async createOtp (data: otpEntity):Promise <any>{
            try{
               const newOtp = new Otp({
-                     uid:data.uid,
+                     email:data.email,
                      otp:data.otp
               })
               const response = await newOtp.save()
@@ -39,7 +40,7 @@ export class userRepository implements userRepositoryInterface {
     async verifyOtp (data: otpEntity):Promise <any> {
                        
           try{
-             const response = await Otp.findOne({uid:data.uid})
+             const response = await Otp.findOne({email:data.email})
              if(response.otp === data.otp) return {...response, message:"otpverification successful"}
              else return {message:"otp is not valid"}    
           }catch(err){
@@ -47,9 +48,10 @@ export class userRepository implements userRepositoryInterface {
           }
     }
 
-    async removeOtp (uid: string):Promise <any> {
+    async removeOtp (data: otpEntity):Promise <any> {
+
           try{
-             const response = await Otp.deleteOne({uid:uid})
+             const response = await Otp.deleteOne({email:data.email})
              return response
           }catch(err){
               console.log(err);  

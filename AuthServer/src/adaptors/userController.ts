@@ -25,17 +25,6 @@ export class userController {
             }
 
             const data = await this.interactor.createUser(userData)
-
-           const getotp = await main({uid:req.body.uid,email:req.body.email})
-
-           const otpData = {
-                  uid:req.body.uid,
-                  otp:getotp
-           }
-            const sendOtp = await this.interactor.createOtp(otpData) 
-
-            console.log(sendOtp);
-            
             res.status(200).json(data)
 
         } catch (error) {
@@ -44,13 +33,35 @@ export class userController {
         }
     }
 
+    async sendOtp(req:Request,res:Response,next:NextFunction){
+
+             try{
+                const {email} = req.body
+                const getotp = await main({email:email}) 
+                const otpData = {
+                    email:req.body.email,
+                    otp:getotp
+               }
+                const storedOtp = await this.interactor.createOtp(otpData) 
+                res.status(200).json(storedOtp)
+             }catch(err){
+                  next(err)
+             }
+    }
+
 
     async verifyOtp(req:Request,res:Response,next:NextFunction){
+
+        console.log(req.body,'bbbbbbbbb');
+        
+
+
           try{
-              const {otp,uid} = req.body
-              const  otpdata = {otp:parseInt(otp),uid}
+              const {otp,email} = req.body
+              const  otpdata = {otp:parseInt(otp),email}
               const otpVerified = await this.interactor.verifyOtp(otpdata)
               if(otpVerified.message === "otpverification successful"){
+                  const otpRemoved = await this.interactor.removeOtp(otpdata)
                   res.status(200).json({message:otpVerified.message})
               }else{
                 res.status(500).json({message:otpVerified.message})

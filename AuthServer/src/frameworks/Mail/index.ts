@@ -31,6 +31,9 @@ export const main = async (user:any)=>{
         else console.log('email send : ' + info.response);  
     })
 
+    console.log(otp);
+    
+
     return otp
 
 }

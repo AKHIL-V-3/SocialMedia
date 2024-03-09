@@ -5,9 +5,9 @@ import { ModalsProvider } from '@mantine/modals';
 import SignUpPage from "./pages/Auth/SignUp/index"
 import { MantineProvider } from "@mantine/core";
 import SignUpPage2 from "./pages/Auth/SignUp2";
-import SignUpPage3 from "./pages/Auth/Signup3";
 import SignInPage from "./pages/Auth/SignIn";
 import HomePage from "./pages/Home";
+import OtpVerificationPage from "./pages/Auth/OtpVerification";
 
 // import './App.css'
 
@@ -31,12 +31,12 @@ const router = createBrowserRouter([
 
       {
         path: "signup/step2",
-        element: <SignUpPage2 />
+        element: <OtpVerificationPage />
       },
 
       {
         path: "signup/step3",
-        element: <SignUpPage3 />
+        element: <SignUpPage2 />
       },
 
     ]

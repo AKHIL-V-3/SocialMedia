@@ -12,6 +12,7 @@ const repository = new userRepository_1.userRepository();
 const interactor = new userInteractor_1.userInteractor(repository);
 const controller = new userController_1.userController(interactor);
 router.post("/signup", controller.createUser.bind(controller));
+router.post("/sendotp", controller.sendOtp.bind(controller));
 router.post("/verifyOtp", controller.verifyOtp.bind(controller));
 exports.default = router;
 //# sourceMappingURL=authRoute.js.map

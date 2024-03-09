@@ -11,7 +11,7 @@ const userSchema = new mongoose_1.default.Schema({
     token: String
 });
 const otpSchema = new mongoose_1.default.Schema({
-    uid: String,
+    email: String,
     otp: Number
 });
 const User = (0, mongoose_2.model)('Users', userSchema);

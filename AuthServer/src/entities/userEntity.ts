@@ -7,6 +7,6 @@ export interface userEntity {
 
 export interface otpEntity {
     
-      uid:string,
+      email:string,
       otp:number
 }

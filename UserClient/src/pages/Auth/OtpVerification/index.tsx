@@ -1,62 +1,63 @@
-import { Avatar, Box, Button, Container, Divider, PasswordInput, Stepper, Text, Step, TextInput, Title, Progress } from "@mantine/core"
-import { IconArrowElbowLeft, IconArrowLeft, IconArrowLeftBar, IconArrowLeftCircle, IconArrowLeftSquare, IconArrowNarrowLeft, IconChevronLeft, IconLock, IconUserCheck } from "@tabler/icons-react"
+import { Avatar, Box, Button, Container, Divider, Input, PasswordInput, Progress, Stepper, Text, TextInput, Title } from "@mantine/core"
+import { IconArrowLeft, IconChevronLeft, IconLock } from "@tabler/icons-react"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "../../../lib/redux/hooks";
-import { userActions } from "../../../lib/redux/Slice/UserSlice";
 import useAuthHook from "../../../hooks/useAuth";
+import { useAppSelector } from "../../../lib/redux/hooks";
 import { useForm } from "@mantine/form";
-import { ArrowLeftIcon, ChevronLeftIcon } from "@radix-ui/react-icons";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
-const SignUpPage2 = () => {
+const OtpVerificationPage = () => {
 
     const navigate = useNavigate()
-    const dispatch = useAppDispatch()
-    const { signupWithEmail } = useAuthHook()
-    const email = useAppSelector((state) => state.userSlice.email)
+    const { verifyOtp } = useAuthHook()
+    const [active, setActive] = useState(2);
 
-    const handleSubmit = async (values: { password1: string, password2: string }) => {
-        const response = await signupWithEmail(email, values.password1, values.password2)
-        const user = {
-            uid: response?.data?.uid,
-            token: response?.data?.token
+    const notify = (message: string) => toast(message);
+    const user = useAppSelector((state) => state.userSlice.user)
+    const email = useAppSelector((state => state.userSlice.email))
+
+    const handleSubmit = async (value: number | null) => {
+        const data = {
+            otp: value,
+            email: email
         }
-        dispatch(userActions.addUser(user))
-        if (response) {
-            navigate("/")
+        try {
+            const response: any = await verifyOtp(data)
+            if (response.data.message === 'otpverification successful') {
+                navigate('/auth/signup/step3')
+            }
+
+        } catch (err: any) {
+            console.log(err);
+
+            if (err.response.data.message === "otp is not valid") {
+                notify('Otp is not valid')
+            }
         }
+
     }
 
     const form = useForm({
-        initialValues: { password1: '', password2: '' },
+        initialValues: { otp: null },
         // functions will be used to validate values at corresponding key   
         validate: {
-            password1: (value: string) => {
-                if (value.length < 1) return 'Enter your password'
-                if (value.length < 6) return 'Password should be atlease 6 characters'
-                return null;
-            },
-            password2: (value: string) => {
-                if (value.length < 1 && form.values.password1.length >= 1) return 'Confirm your Password'
-                if (value.length < 1) return 'Enter your password'
-                if (value.length < 6) return 'Password should be atlease 6 characters'
-                if (value !== form.values.password1) return 'Passwords do not match'
+            otp: (value: number) => {
+                if (!value) return 'Otp required'
+                let otp = value.toString()
+                if (otp.length > 4) return 'Enter a valid otp'
                 return null;
             },
         }
     });
-    const [active, setActive] = useState(1);
-    const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
-    const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
-
-    const steps = ['Step 1', 'Step 2', 'Step 3', 'Step 4'];
-
 
     return (
 
         <>
+            <ToastContainer />
             <Container>
 
                 <Box
@@ -89,6 +90,13 @@ const SignUpPage2 = () => {
                                 width: "100%"
                             }}
                         >
+                            {/* <Box sx={{ width: "100%" }} pb={20}>
+                                <Stepper active={active} onStepClick={setActive}>
+                                    <Stepper.Step />
+                                    <Stepper.Step />
+                                    <Stepper.Step />
+                                </Stepper>
+                            </Box> */}
 
                             <Box
                                 sx={{
@@ -104,14 +112,14 @@ const SignUpPage2 = () => {
                                         marginBottom: "30px"
                                     }}
                                 >
-                                    <Progress radius="xl" size="xs" value={100} />
+                                    <Progress radius="xl" size="xs" value={50} />
                                 </Box>
 
                                 {/* <Avatar sx={{ m: 1, bgcolor: "grey.3" }} radius={"xl"} color="indigo" variant="outline">
                                     <IconLock />
                                 </Avatar> */}
 
-                                <Box
+                                 <Box
                                     sx={{
                                         display: "flex",
                                         justifyContent: "start",
@@ -119,55 +127,51 @@ const SignUpPage2 = () => {
                                         gap: "10px"
                                     }}
                                 >
+
                                         <IconChevronLeft size={30} />
+
                                     <Box>
-                                        <Text size="md"> Step 2 of 2</Text>
-                                        <Text size="md" weight="bold" color="#fff">Create a password</Text>
+                                        <Text size="md"> Step 1 of 2</Text>
+                                        <Text size="md" weight="bold" color="#fff">Verify your email</Text>
                                     </Box>
+
                                 </Box>
                             </Box>
 
 
                             <Box
-                                component="form"
-                                onSubmit={form.onSubmit((values) => handleSubmit(values))}
+
+                                component='form'
+                                onSubmit={form.onSubmit((value) => { handleSubmit(value.otp) })}
                                 sx={{
                                     width: "100%",
                                     display: "flex",
                                     flexDirection: "column",
-                                    gap: "18px"
+                                    gap: "20px"
                                 }}
                             >
                                 <Box
-                                // sx={{ marginTop: "8px" }}
+                                    sx={{ marginTop: "8px" }}
                                 >
-                                    <Text sx={{ fontSize: "16px", fontWeight: "bold", marginBottom: "3px" }}>Password</Text>
-                                    <PasswordInput
+                                    <Text sx={{ fontSize: "16px", fontWeight: "bold", marginBottom: "3px" }}>Enter your Otp</Text>
+                                    <TextInput
+                                        type="number"
                                         sx={{ input: { padding: "20px" } }}
                                         size="lg"
-                                        {...form.getInputProps('password1')}
-                                    // onChange={(e) => setPassword(e.target.value)}
-                                    />
-
-                                </Box>
-                                <Box>
-                                    <Text sx={{ fontSize: "16px", fontWeight: "bold", marginBottom: "3px" }}>Confirm Password</Text>
-                                    <PasswordInput
-                                        sx={{ input: { padding: "20px" } }}
-                                        size="lg"
-                                        {...form.getInputProps('password2')}
-                                    // onChange={(e) => setConfirmpassword(e.target.value)}
+                                        placeholder="Otp-eg ... 34543 "
+                                        {...form.getInputProps('otp')}
+                                    // onChange={(e:any) => setOtp(e.target.value)}
                                     />
                                 </Box>
                                 <Button
                                     sx={{
                                         height: "45px",
-                                        borderRadius: "24px"
+                                        borderRadius: "12px"
                                     }}
-                                    fullWidth variant="filled"
-                                    // onClick={() => handleSubmit()}
+                                    fullWidth variant="outline"
                                     type="submit"
-                                >Signup
+                                // onClick={handleSubmit}
+                                >Verify Otp
                                 </Button>
 
                             </Box>
@@ -180,4 +184,4 @@ const SignUpPage2 = () => {
 
 }
 
-export default SignUpPage2
+export default OtpVerificationPage

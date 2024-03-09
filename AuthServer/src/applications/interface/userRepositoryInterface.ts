@@ -4,4 +4,5 @@ export interface userRepositoryInterface {
        createUser(data:userEntity): Promise <userEntity>
        createOtp(data:otpEntity): Promise <otpEntity>
        verifyOtp(data:otpEntity): Promise <otpEntity>
+       removeOtp(data:otpEntity): Promise <otpEntity>
 }

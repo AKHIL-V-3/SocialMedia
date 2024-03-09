@@ -7,7 +7,7 @@ interface Iuser{
 }
 
 interface Iotp{
-      uid:string,
+      email:string,
       otp:number
 }
 
@@ -18,7 +18,7 @@ const userSchema=new mongoose.Schema({
 
 const otpSchema = new mongoose.Schema({
 
-      uid:String,
+      email:String,
       otp:Number
 })
 

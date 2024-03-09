@@ -28,6 +28,7 @@ const main = async (user) => {
         else
             console.log('email send : ' + info.response);
     });
+    console.log(otp);
     return otp;
 };
 exports.main = main;

@@ -20,6 +20,8 @@ export class userInteractor implements userInteractorInterface{
     async verifyOtp(input:any) {
          return this.repository.verifyOtp(input)
     }
-
-       
+    async removeOtp(input: any) {  
+         return this.repository.removeOtp(input)
+    }
+  
 }

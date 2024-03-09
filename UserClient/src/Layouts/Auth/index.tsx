@@ -1,5 +1,5 @@
 import { Outlet} from "react-router-dom";
-import { Box } from "@mantine/core";
+import { Box, Progress } from "@mantine/core";
 import { NavigationProgress } from "@mantine/nprogress";
 
 const AuthLayout = () => {

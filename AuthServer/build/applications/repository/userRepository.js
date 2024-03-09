@@ -20,7 +20,7 @@ class userRepository {
     async createOtp(data) {
         try {
             const newOtp = new userModel_1.Otp({
-                uid: data.uid,
+                email: data.email,
                 otp: data.otp
             });
             const response = await newOtp.save();
@@ -32,9 +32,9 @@ class userRepository {
     }
     async verifyOtp(data) {
         try {
-            const response = await userModel_1.Otp.findOne({ uid: data.uid });
+            const response = await userModel_1.Otp.findOne({ email: data.email });
             if (response.otp === data.otp)
-                return response;
+                return { ...response, message: "otpverification successful" };
             else
                 return { message: "otp is not valid" };
         }
@@ -42,9 +42,9 @@ class userRepository {
             console.log(err);
         }
     }
-    async removeOtp(uid) {
+    async removeOtp(data) {
         try {
-            const response = await userModel_1.Otp.deleteOne({ uid: uid });
+            const response = await userModel_1.Otp.deleteOne({ email: data.email });
             return response;
         }
         catch (err) {

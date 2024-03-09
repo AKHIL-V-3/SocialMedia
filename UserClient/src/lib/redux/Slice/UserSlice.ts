@@ -3,13 +3,15 @@ import { createSlice } from "@reduxjs/toolkit"
 interface userInterface {
     email:string,
     passwords:object,
-    user:object
+    user:object,
+    isStepTwo: boolean
 }
 
 const initialState: userInterface = {
     email: "",
     passwords: {},
-    user: {}
+    user: {},
+    isStepTwo: false
 }
 
 
@@ -35,6 +37,12 @@ const userSlice = createSlice({
         },
         removeUser: (state,action) =>{
             state.user = {}
+        },
+        popisStepTwo:(state,action) =>{  
+            state.isStepTwo = true
+        },
+        popisStepOne:(state,action)=>{
+             state.isStepTwo = false
         }
     }
 })
